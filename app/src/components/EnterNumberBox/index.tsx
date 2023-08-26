@@ -1,51 +1,39 @@
 import { StyleSheet, Text, View, TextInput, Pressable } from "react-native";
-import React, { useState } from "react";
+import React, { FC, useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { Props } from "./EnterNumberBoxType";
+import CustomButton from "../Button";
 
-const EnterNumberBox = () => {
-  const [enteredNumber, setEnteredNumber] = useState("");
+const EnterNumberBox: FC<Props> = ({
+  enteredNumber,
+  onNumberChange,
+  onNumberReset,
+  onConfirm,
+  boxTitle,
+  isThereInput,
+  firstButtonText,
+  secondButtonText,
+}) => {
   return (
     <SafeAreaView style={styles.boxContainer}>
-      <Text style={styles.titleOfBox}>Enter a Number</Text>
-      <TextInput
-        style={styles.enteredNumber}
-        cursorColor={"#fff"}
-        onChangeText={setEnteredNumber}
-        value={enteredNumber}
-      />
+      <Text style={styles.titleOfBox}>{boxTitle}</Text>
+      {isThereInput && (
+        <TextInput
+          style={styles.enteredNumber}
+          cursorColor={"#fff"}
+          onChangeText={onNumberChange}
+          value={enteredNumber}
+        />
+      )}
       <View style={{ flexDirection: "row", gap: 10 }}>
-        <View
-          style={{
-            backgroundColor: "#B5338A",
-            borderRadius: 20,
-          }}
-        >
-          <Pressable
-            onPress={() => {
-              console.log(enteredNumber);
-            }}
-            style={{ padding: 15, paddingHorizontal: 40 }}
-            android_ripple={{ color: "purple", foreground: false }}
-          >
-            <Text style={{ color: "#fff" }}>Reset</Text>
-          </Pressable>
-        </View>
-        <View
-          style={{
-            backgroundColor: "#B5338A",
-            borderRadius: 20,
-          }}
-        >
-          <Pressable
-            onPress={() => {
-              console.log(enteredNumber);
-            }}
-            style={{ padding: 15, paddingHorizontal: 40 }}
-            android_ripple={{ color: "purple", foreground: false }}
-          >
-            <Text style={{ color: "#fff" }}>Confirm</Text>
-          </Pressable>
-        </View>
+        <CustomButton
+          onPressHandler={onNumberReset}
+          buttonName={firstButtonText}
+        />
+        <CustomButton
+          onPressHandler={onConfirm}
+          buttonName={secondButtonText}
+        />
       </View>
     </SafeAreaView>
   );
